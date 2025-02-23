@@ -1,7 +1,6 @@
 2025-2-22
 
-可以通过 `git commit -am` 命令提交所有文件的修改，但是如果有新文件，需要先 git add 新文件名，再 `git commit -am` 提交所有文件的修改。
-
+可以通过 `git commit -am` 命令提交所有文件的修改（当你觉得所有工作都做完以后）。但是如果有新文件，需要先 `git add`新文件名，再 `git commit `提交修改。因为 `git commit -am` 命令适用于已经跟踪的文件。
             
 2025-2-23
 ## 恢复已修改文件的方法
@@ -11,7 +10,7 @@
 情况二：如果已经add了即是**绿色的M**的话:可以 `git restore --staged <file>` 取消暂存。再利用`git restore <file>` 恢复文件
 
 2025-2-23
-## 关于 git pull
+## 关于 `git pull`
 来源于[技术爬爬虾](https://www.bilibili.com/video/BV1McyYYtEX4/?spm_id_from=333.337.search-card.all.click&vd_source=7184f70b126b0d6d3ad6ad4235c0c45c)
 ```bash
 git pull = git fetch + git merge
@@ -22,6 +21,58 @@ git pull 是 git fetch 和 git merge 的缩写。git fetch 用于从远程仓库
 
 所以如果多人共同开发一个分支时，最好使用 `git pull --rebase`命令，这样有冲突的话，会把你本地的提交放一边，先把远程分支的提交拉下来，然后再把你的提交放回去，这样不仅解决了冲突还保持了分支的线性。
 
-## 关于变基（rebase）
+## 关于分支合并
+#### 关于合并（merge）
+
+![merge](https://cdn.jsdelivr.net/gh/tingshuo-yiqing/PicGo-tuchuang/img/20250223140435751.png)
+
+#### 关于变基（rebase）
+来源于[GeekHour](https://www.bilibili.com/video/BV1HM411377j?spm_id_from=333.788.videopod.sections&vd_source=7184f70b126b0d6d3ad6ad4235c0c45c&p=18)
+
+![rebase](https://cdn.jsdelivr.net/gh/tingshuo-yiqing/PicGo-tuchuang/img/20250223140917518.png)
 
 
+## 关于`git rm`
+
+#### 情况一：如果已经暂存了，就不能直接`git rm`bash会报错，会导致暂存区的更改丢失。
+```bash
+git rm --cached <file> # 移除跟踪变为Untracked，但还保留在本地上
+
+git rm -f <file> # 强制删除, 不保留在本地
+```
+当你误提交了一个有用的文件时，可以使用`git rm --cached <file>`来删除，但是会保留在本地
+当你决定弃用一个文件的话，可以使用`git rm -f <file>`来强制删除
+
+##### 情况二：如果没有暂存，就可以直接`git rm`，会同时删除工作区和暂存区的文件
+
+## 文件的常见操作
+> 关于这些系统命令是否需要加`git`前缀，需要根据这个文件（目录）是否被纳入管理即有没有被add
+```bash
+touch <file> # 创建文件
+git mv <file> <newfile> # 重命名文件
+
+echo <content> > <file> # 写入文件
+echo <content> >> <file> # 追加文件内容
+cat <file> # 查看文件内容
+
+cp 
+
+mkdir <dir> # 创建文件夹
+mkdir -p <dir1>/<dir2> # 创建递归文件夹
+
+ls                  # 列出当前目录文件
+ls -l               # 详细信息
+ls -a               # 显示隐藏文件
+ls -lh              # 以可读格式显示大小
+ls -lt              # 按修改时间排序
+
+cd dirname          # 进入目录
+cd ..               # 返回上一级目录
+cd /home/user       # 进入指定目录
+cd ~                # 进入 home 目录
+cd -                # 返回上次所在目录
+
+git rm -r <dir> # 删除文件夹
+git rm -rf <dir> # 强制删除文件夹
+
+```
